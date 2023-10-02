@@ -2,9 +2,9 @@
 
 <h3>Instructions to run the application.</h3>
 
-        1. Start the program
-        2. Start the program
-        3. Start the program
+ 1. Start the program
+ 2. Start the program
+ 3. Start the program
 
 <h3>Screenshots of the product.</h3>
 
