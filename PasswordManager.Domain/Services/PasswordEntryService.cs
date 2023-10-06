@@ -1,32 +1,43 @@
 using PasswordManager.Core.IServices;
 using PasswordManager.Core.Models;
+using PasswordManager.Domain.IRepositories;
 
 namespace PasswordManager.Domain.Services;
 
 public class PasswordEntryService : IPasswordEntryService
 {
+    private readonly IPasswordEntryRepository _passwordEntryRepository;
+    
+    public PasswordEntryService(IPasswordEntryRepository passwordEntryRepository)
+    {
+        _passwordEntryRepository = passwordEntryRepository;
+    }
     public PasswordEntry AddPasswordEntry(PasswordEntry entry)
     {
-        throw new NotImplementedException();
+        _passwordEntryRepository.SavePasswordEntry(entry);
+        return entry;
     }
 
-    public PasswordEntry GetPasswordEntry(string website)
+    public PasswordEntry? GetPasswordEntry(string website)
     {
-        throw new NotImplementedException();
+        return _passwordEntryRepository.GetPasswordEntry(website);
     }
 
     public List<PasswordEntry> GetAllPasswordEntries()
     {
-        throw new NotImplementedException();
+        var passwordEntries = _passwordEntryRepository.GetAllPasswordEntries();
+        return passwordEntries;
     }
 
     public PasswordEntry UpdatePasswordEntry(PasswordEntry entry)
     {
-        throw new NotImplementedException();
+        _passwordEntryRepository.UpdatePasswordEntry(entry);
+        return entry;
     }
 
     public PasswordEntry DeletePasswordEntry(string website)
     {
-        throw new NotImplementedException();
+        var deletedEntry = _passwordEntryRepository.DeletePasswordEntry(website);
+        return deletedEntry;
     }
 }
