@@ -1,36 +1,20 @@
 version: "3.9"
 
 services:
-  foodapi:
-    image: justeatitregistry.azurecr.io/foodapi
+  password-manager-api:
     build:
       context: .
-      dockerfile: "JustEatIt.FoodAPI/Dockerfile"
+      dockerfile: ./PasswordManager.WebApi/Dockerfile
     ports:
-      - 7000:80
-  drinkapi:
-    image: justeatitregistry.azurecr.io/drinkapi
+      - 8000:80
+    volumes:
+      - ./PasswordManager.WebApi/Data:/data
+  password-manager-ui:
     build:
-      context: .
-      dockerfile: "JustEatIt.DrinkAPI/Dockerfile"
+      context: ./PasswordManager.UI
+      dockerfile: ./Dockerfile
     ports:
-      - 7001:80
-  orderapi:
-    image: justeatitregistry.azurecr.io/orderapi
-    build:
-      context: .
-      dockerfile: "JustEatIt.OrderAPI/Dockerfile"
-    ports:
-      - 7002:80
-  gateway:
-    build:
-      context: .
-      dockerfile: "JustEatIt.GraphQL.Gateway/Dockerfile"
-    ports:
-      - 7003:80
-    depends_on:
-      - foodapi
-      - drinkapi
-      - orderapi
+      - 8001:80
+
 
   

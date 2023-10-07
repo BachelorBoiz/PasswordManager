@@ -11,6 +11,8 @@ public class PasswordManagerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PasswordEntryEntity>().HasKey(x => x.Id);
+
         modelBuilder.Entity<PasswordEntryEntity>().HasData(new PasswordEntryEntity
         {
             Id = 1,

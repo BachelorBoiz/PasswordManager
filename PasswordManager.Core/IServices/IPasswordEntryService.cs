@@ -4,9 +4,9 @@ namespace PasswordManager.Core.IServices;
 
 public interface IPasswordEntryService
 {
-    PasswordEntry AddPasswordEntry(PasswordEntry entry);
-    PasswordEntry? GetPasswordEntry(string website);
-    List<PasswordEntry> GetAllPasswordEntries();
-    PasswordEntry UpdatePasswordEntry(PasswordEntry entry);
-    PasswordEntry DeletePasswordEntry(string website);
+    Task<PasswordEntry> AddPasswordEntry(PasswordEntry entry);
+    Task<PasswordEntry?> GetPasswordEntry(string website);
+    Task<List<PasswordEntry>> GetAllPasswordEntries();
+    Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry);
+    Task DeletePasswordEntry(string website);
 }

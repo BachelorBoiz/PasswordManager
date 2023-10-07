@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PasswordManager.Core.Models;
 using PasswordManager.Domain.IRepositories;
 using PasswordManager.Infrastructure.Entities;
@@ -13,9 +14,9 @@ public class PasswordEntryRepository : IPasswordEntryRepository
         _ctx = ctx;
     }
 
-    public PasswordEntry? GetPasswordEntry(string website)
+    public async Task<PasswordEntry?> GetPasswordEntry(string website)
     {
-        return _ctx.Passwords
+        return await _ctx.Passwords
             .Where(entity => entity.Website == website)
             .Select(entity => new PasswordEntry()
             {
@@ -24,12 +25,12 @@ public class PasswordEntryRepository : IPasswordEntryRepository
                 Password = entity.Password,
                 Website = entity.Website
             })
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
     }
 
-    public List<PasswordEntry> GetAllPasswordEntries()
+    public async Task<List<PasswordEntry>> GetAllPasswordEntries()
     {
-        return _ctx.Passwords
+        return await _ctx.Passwords
             .Select(entity => new PasswordEntry()
             {
                 Id = entity.Id,
@@ -37,10 +38,10 @@ public class PasswordEntryRepository : IPasswordEntryRepository
                 Password = entity.Password,
                 Website = entity.Website
             })
-            .ToList();
+            .ToListAsync();
     }
 
-    public PasswordEntry SavePasswordEntry(PasswordEntry entry)
+    public async Task<PasswordEntry> SavePasswordEntry(PasswordEntry entry)
     {
         var entity = new PasswordEntryEntity
         {
@@ -50,13 +51,13 @@ public class PasswordEntryRepository : IPasswordEntryRepository
         };
 
         _ctx.Passwords.Add(entity);
-        _ctx.SaveChanges();
+        await _ctx.SaveChangesAsync();
 
         entry.Id = entity.Id; // Update the entry's ID with the generated ID from the database
         return entry;
     }
 
-    public PasswordEntry UpdatePasswordEntry(PasswordEntry entry)
+    public async Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry)
     {
         var existingEntity = _ctx.Passwords.FirstOrDefault(e => e.Website == entry.Website);
 
@@ -64,30 +65,20 @@ public class PasswordEntryRepository : IPasswordEntryRepository
         {
             existingEntity.Username = entry.Username;
             existingEntity.Password = entry.Password;
-            _ctx.SaveChanges();
+            await _ctx.SaveChangesAsync();
         }
 
         return entry;
     }
 
-    public PasswordEntry DeletePasswordEntry(string website)
+    public async Task DeletePasswordEntry(string website)
     {
-        var entityToDelete = _ctx.Passwords.FirstOrDefault(e => e.Website == website);
+        var entityToDelete = await _ctx.Passwords.FirstOrDefaultAsync(e => e.Website == website);
 
         if (entityToDelete != null)
         {
             _ctx.Passwords.Remove(entityToDelete);
-            _ctx.SaveChanges();
-
-            return new PasswordEntry
-            {
-                Id = entityToDelete.Id,
-                Username = entityToDelete.Username,
-                Password = entityToDelete.Password,
-                Website = entityToDelete.Website
-            };
+            await _ctx.SaveChangesAsync();
         }
-
-        return null;
     }
 }

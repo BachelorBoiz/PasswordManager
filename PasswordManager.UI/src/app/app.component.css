@@ -1,0 +1,63 @@
+.password-manager {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.password-form, .password-list {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.password-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.password-list li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-list button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.password-list button:hover {
+  background-color: #c82333;
+}

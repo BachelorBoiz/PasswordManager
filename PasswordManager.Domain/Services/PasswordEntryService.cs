@@ -12,32 +12,31 @@ public class PasswordEntryService : IPasswordEntryService
     {
         _passwordEntryRepository = passwordEntryRepository;
     }
-    public PasswordEntry AddPasswordEntry(PasswordEntry entry)
+    public async Task<PasswordEntry> AddPasswordEntry(PasswordEntry entry)
     {
-        _passwordEntryRepository.SavePasswordEntry(entry);
+        await _passwordEntryRepository.SavePasswordEntry(entry);
         return entry;
     }
 
-    public PasswordEntry? GetPasswordEntry(string website)
+    public async Task<PasswordEntry?> GetPasswordEntry(string website)
     {
-        return _passwordEntryRepository.GetPasswordEntry(website);
+        return await _passwordEntryRepository.GetPasswordEntry(website);
     }
 
-    public List<PasswordEntry> GetAllPasswordEntries()
+    public async Task<List<PasswordEntry>> GetAllPasswordEntries()
     {
-        var passwordEntries = _passwordEntryRepository.GetAllPasswordEntries();
+        var passwordEntries = await _passwordEntryRepository.GetAllPasswordEntries();
         return passwordEntries;
     }
 
-    public PasswordEntry UpdatePasswordEntry(PasswordEntry entry)
+    public async Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry)
     {
-        _passwordEntryRepository.UpdatePasswordEntry(entry);
+        await _passwordEntryRepository.UpdatePasswordEntry(entry);
         return entry;
     }
 
-    public PasswordEntry DeletePasswordEntry(string website)
+    public async Task DeletePasswordEntry(string website)
     {
-        var deletedEntry = _passwordEntryRepository.DeletePasswordEntry(website);
-        return deletedEntry;
+        await _passwordEntryRepository.DeletePasswordEntry(website);
     }
 }

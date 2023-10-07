@@ -4,9 +4,9 @@ namespace PasswordManager.Domain.IRepositories;
 
 public interface IPasswordEntryRepository
 {
-    PasswordEntry? GetPasswordEntry(string website);
-    List<PasswordEntry> GetAllPasswordEntries();
-    PasswordEntry SavePasswordEntry(PasswordEntry entry);
-    PasswordEntry UpdatePasswordEntry(PasswordEntry entry);
-    PasswordEntry DeletePasswordEntry(string website);
+    Task<PasswordEntry?> GetPasswordEntry(string website);
+    Task<List<PasswordEntry>> GetAllPasswordEntries();
+    Task<PasswordEntry> SavePasswordEntry(PasswordEntry entry);
+    Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry);
+    Task DeletePasswordEntry(string website);
 }
