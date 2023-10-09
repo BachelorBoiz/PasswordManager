@@ -1,6 +1,14 @@
 <div class="password-manager">
   <h1>Password Manager</h1>
 
+  <div class="password-form">
+    <h2>Type your master password</h2>
+    <form>
+      <input #masterPassword type="password" placeholder="Master password" required>
+      <button (click)="getPasswords(masterPassword.value)" type="button">Submit</button>
+    </form>
+  </div>
+
   <!-- Add New Password Form -->
   <div class="password-form">
     <h2>Add New Password</h2>
