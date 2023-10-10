@@ -8,5 +8,5 @@ public interface IPasswordEntryRepository
     Task<List<PasswordEntry>> GetAllPasswordEntries();
     Task<PasswordEntry> SavePasswordEntry(PasswordEntry entry);
     Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry);
-    Task DeletePasswordEntry(string website);
+    Task DeletePasswordEntry(int id);
 }

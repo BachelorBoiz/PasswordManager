@@ -12,11 +12,11 @@
   <!-- Add New Password Form -->
   <div class="password-form">
     <h2>Add New Password</h2>
-    <form (submit)="addPassword()">
-      <input type="text" placeholder="Website/App Name"  required>
-      <input type="text" placeholder="Username/Email"  required>
-      <input type="password" placeholder="Password" required>
-      <button type="submit">Add</button>
+    <form>
+      <input #website type="text" placeholder="Website/App Name"  required>
+      <input #username type="text" placeholder="Username/Email"  required>
+      <input #password type="password" placeholder="Password" required>
+      <button (click)="addPassword(website.value, username.value, password.value)" type="submit">Add</button>
     </form>
   </div>
 
@@ -24,11 +24,11 @@
   <div class="password-list">
     <h2>Password List</h2>
     <ul>
-      <li *ngFor="let password of passwords">
+      <li *ngFor="let password of encryptedPasswords">
         <strong>{{ password.website }}</strong>
         <p>Username: {{ password.username }}</p>
         <p>Password: {{ password.password }}</p>
-        <button (click)="deletePassword(password)">Delete</button>
+        <button (click)="deletePassword(password.id)">Delete</button>
       </li>
     </ul>
   </div>

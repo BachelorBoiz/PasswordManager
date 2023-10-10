@@ -30,5 +30,13 @@ namespace PasswordManager.WebApi.Controllers
             var passwords = await _passwordEntryService.GetAllPasswordEntries();
             return Ok(passwords);
         }
+
+        [HttpDelete("{id})")]
+        public async Task<ActionResult> DeletePassword(int id)
+        {
+            await _passwordEntryService.DeletePasswordEntry(id);
+
+            return Ok();
+        }
     }
 }

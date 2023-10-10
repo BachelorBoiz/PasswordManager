@@ -8,5 +8,5 @@ public interface IPasswordEntryService
     Task<PasswordEntry?> GetPasswordEntry(string website);
     Task<List<PasswordEntry>> GetAllPasswordEntries();
     Task<PasswordEntry> UpdatePasswordEntry(PasswordEntry entry);
-    Task DeletePasswordEntry(string website);
+    Task DeletePasswordEntry(int id);
 }

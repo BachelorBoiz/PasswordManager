@@ -71,9 +71,9 @@ public class PasswordEntryRepository : IPasswordEntryRepository
         return entry;
     }
 
-    public async Task DeletePasswordEntry(string website)
+    public async Task DeletePasswordEntry(int id)
     {
-        var entityToDelete = await _ctx.Passwords.FirstOrDefaultAsync(e => e.Website == website);
+        var entityToDelete = await _ctx.Passwords.FirstOrDefaultAsync(e => e.Id == id);
 
         if (entityToDelete != null)
         {

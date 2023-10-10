@@ -35,8 +35,8 @@ public class PasswordEntryService : IPasswordEntryService
         return entry;
     }
 
-    public async Task DeletePasswordEntry(string website)
+    public async Task DeletePasswordEntry(int id)
     {
-        await _passwordEntryRepository.DeletePasswordEntry(website);
+        await _passwordEntryRepository.DeletePasswordEntry(id);
     }
 }

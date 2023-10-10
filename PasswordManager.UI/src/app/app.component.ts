@@ -11,7 +11,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class AppComponent implements OnInit{
   title = 'Password Manager';
   masterPassword: string = '';
-  newPassword: any = {};
+  newPassword: Password = {id: 0, password: "", username: "", website: ""};
   encryptedPasswords: Password[] = [];
   decryptedPasswords: Password[] = [];
 
@@ -21,23 +21,23 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  addPassword() {
-    if (this.newPassword.website && this.newPassword.username && this.newPassword.password) {
-      this.decryptedPasswords.push({ ...this.newPassword });
-      this.newPassword = {};
-    }
+  addPassword(website: string, username: string, password: string) {
+    this.newPassword.website = website
+    this.newPassword.username = username
+    this.newPassword.password = password
+    this._httpService.addPassword(this.newPassword).subscribe(value => {
+      this.decryptedPasswords.push(this.newPassword);
+    })
   }
 
   getPasswords(masterPassword: string) {
     this._httpService.getPasswords().subscribe(value => {
-      this.decryptedPasswords = value
+      this.encryptedPasswords = value
     })
   }
 
-  deletePassword(password: any) {
-    const index = this.decryptedPasswords.indexOf(password);
-    if (index !== -1) {
-      this.decryptedPasswords.splice(index, 1);
-    }
+  deletePassword(id: number) {
+    this._httpService.deletePassword(id)
+    
   }
 }
