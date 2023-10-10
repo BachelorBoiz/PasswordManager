@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpService} from "./http.service";
 import {Password} from "./password";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {EncryptionService} from "./encryption.service";
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,12 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class AppComponent implements OnInit{
   title = 'Password Manager';
-  masterPassword: string = '';
+  masterPassword: string = "";
   newPassword: Password = {id: 0, password: "", username: "", website: ""};
   encryptedPasswords: Password[] = [];
   decryptedPasswords: Password[] = [];
 
-  constructor(private _httpService: HttpService) {
+  constructor(private _httpService: HttpService, private _encryptionService: EncryptionService) {
   }
 
   ngOnInit(): void {
@@ -24,20 +25,26 @@ export class AppComponent implements OnInit{
   addPassword(website: string, username: string, password: string) {
     this.newPassword.website = website
     this.newPassword.username = username
-    this.newPassword.password = password
+    this.newPassword.password = this._encryptionService.encrypt(password, this.masterPassword)
     this._httpService.addPassword(this.newPassword).subscribe(value => {
       this.decryptedPasswords.push(this.newPassword);
     })
   }
 
   getPasswords(masterPassword: string) {
-    this._httpService.getPasswords().subscribe(value => {
-      this.encryptedPasswords = value
-    })
+    if (masterPassword !== "") {
+      this.decryptedPasswords = [];
+      this._httpService.getPasswords().subscribe(value => {
+        value.forEach(p => {
+          p.password = this._encryptionService.decrypt(p.password, masterPassword)
+          this.decryptedPasswords.push(p)
+        })
+        this.masterPassword = masterPassword;
+      })
+    }
   }
 
   deletePassword(id: number) {
     this._httpService.deletePassword(id)
-    
   }
 }

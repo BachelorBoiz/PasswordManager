@@ -24,7 +24,7 @@
   <div class="password-list">
     <h2>Password List</h2>
     <ul>
-      <li *ngFor="let password of encryptedPasswords">
+      <li *ngFor="let password of decryptedPasswords">
         <strong>{{ password.website }}</strong>
         <p>Username: {{ password.username }}</p>
         <p>Password: {{ password.password }}</p>
