@@ -14,17 +14,12 @@
 
 <h3>Screenshots of the product.</h3>
 
-<picture>
-<img src="https://i.imgur.com/BNntXfH.png">
-</picture>
+
+<img src="https://i.imgur.com/BNntXfH.png" alt="Alt Text">
 <br>
-<picture>
-<img src="https://i.imgur.com/bPEXHIN.png">
-</picture>
+<img src="https://i.imgur.com/bPEXHIN.png" alt="Alt Text">
 <br>
-<picture>
-<img src="https://i.imgur.com/YkzUaVF.png">
-</picture>
+<img src="https://i.imgur.com/YkzUaVF.png" alt="Alt Text">
 
 <h3>Discussion about security of your product.</h3>
 
