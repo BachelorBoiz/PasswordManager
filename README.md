@@ -1,18 +1,32 @@
 <h1>PasswordManager - Security Mini Project</h1>
 
-<h3>Instructions to run the application.</h3>
+<h3>Instructions to run the application:</h3>
 
- 1. Start the program
- 2. Start the program
- 3. Start the program
+ 1. ```docker compose build```
+ 2. ```docker compose up```
+ 3. Go to ```http://localhost:8001/```
+
+<h3>How to use:</h3>
+
+ - For this demo version of the password manager, we use the master password: ```123456```
+ - Add new passwords to the list by filling the form.
+ - You will only be able to view the list of passwords, if you know the master password.
 
 <h3>Screenshots of the product.</h3>
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/25423296/163456776-7f95b81a-f1ed-45f7-b7ab-8fa810d529fa.png">
-<img width="100" height="100" alt="Shows an illustrated sun in light mode and a moon with stars in dark mode." src="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
+<img src="https://i.imgur.com/BNntXfH.png">
+</picture>
+<br>
+<picture>
+<img src="https://i.imgur.com/bPEXHIN.png">
+</picture>
+<br>
+<picture>
+<img src="https://i.imgur.com/YkzUaVF.png">
 </picture>
 
 <h3>Discussion about security of your product.</h3>
 
-<p>Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet. Lorem ipsum bacon dollor sit amet.</p>
+#### AES
+<p>We developed a password manager using AES encryption to ensure the security of stored passwords. While we understood the importance of strong master passwords, for the sake of our demo, we temporarily used "123456" as the master password. This allowed us to showcase the functionality of our application effectively. Our primary focus was on implementing AES encryption, creating a user-friendly interface, and demonstrating how the password manager securely stores and retrieves passwords. This project laid a solid foundation for potential future developments and improvements in password security.</p>
