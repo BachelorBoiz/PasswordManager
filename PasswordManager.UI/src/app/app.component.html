@@ -1,7 +1,7 @@
 <div class="password-manager">
   <h1>Password Manager</h1>
 
-  <div class="password-form">
+  <div class="password-form" [style.display]="showMasterPasswordField ? 'block' : 'none'">
     <h2>Type your master password</h2>
     <form>
       <input #masterPassword type="password" placeholder="Master password" required>
@@ -10,7 +10,7 @@
   </div>
 
   <!-- Add New Password Form -->
-  <div class="password-form">
+  <div [style.display]="correctMasterPassword ? 'block' : 'none'" class="password-form">
     <h2>Add New Password</h2>
     <form>
       <input #website type="text" placeholder="Website/App Name"  required>
@@ -21,14 +21,14 @@
   </div>
 
   <!-- Password List -->
-  <div class="password-list">
+  <div class="password-list" [style.display]="correctMasterPassword ? 'block' : 'none'">
     <h2>Password List</h2>
     <ul>
       <li *ngFor="let password of decryptedPasswords">
         <strong>{{ password.website }}</strong>
         <p>Username: {{ password.username }}</p>
         <p>Password: {{ password.password }}</p>
-        <button (click)="deletePassword(password.id)">Delete</button>
+        <button (click)="deletePassword(password.id)" type="button">Delete</button>
       </li>
     </ul>
   </div>

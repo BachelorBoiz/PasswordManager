@@ -8,7 +8,7 @@ namespace PasswordManager.Core.Abstractions
 {
     public interface IPasswordHasher
     {
-        string Hash(string password);
+        string Hash(string password, byte[] salt);
         bool Verify(string password, string InputPassword);
 
     }

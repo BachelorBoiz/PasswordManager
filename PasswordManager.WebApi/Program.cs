@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using PasswordManager.Core.Abstractions;
 using PasswordManager.Core.IServices;
 using PasswordManager.Domain.IRepositories;
 using PasswordManager.Domain.Services;
 using PasswordManager.Infrastructure;
 using PasswordManager.Infrastructure.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
 builder.Services.AddRazorPages();
 
 // Dependency Injection for PasswordEntry
 builder.Services.AddScoped<IPasswordEntryService, PasswordEntryService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 builder.Services.AddDbContext<PasswordManagerDbContext>(options => 
     options.UseSqlite("Data Source=/data/passwords.db"));

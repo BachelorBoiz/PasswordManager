@@ -16,11 +16,11 @@ namespace PasswordManager.Infrastructure
         private static readonly HashAlgorithmName _hashAlgorithmName = HashAlgorithmName.SHA256;
         private static char Delimiter = ';';
 
-        public string Hash(string password)
+        public string Hash(string password, byte[] salt)
         {
             PasswordNullException(password);
 
-            var salt = RandomNumberGenerator.GetBytes(saltSize);
+            //var salt = RandomNumberGenerator.GetBytes(saltSize);
             var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, _hashAlgorithmName, KeySize);
 
             return string.Join(Delimiter, Convert.ToBase64String(salt), Convert.ToBase64String(hash));

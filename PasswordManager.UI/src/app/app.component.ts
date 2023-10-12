@@ -15,6 +15,8 @@ export class AppComponent implements OnInit{
   newPassword: Password = {id: 0, password: "", username: "", website: ""};
   encryptedPasswords: Password[] = [];
   decryptedPasswords: Password[] = [];
+  correctMasterPassword = false;
+  showMasterPasswordField = true;
 
   constructor(private _httpService: HttpService, private _encryptionService: EncryptionService) {
   }
@@ -33,8 +35,10 @@ export class AppComponent implements OnInit{
 
   getPasswords(masterPassword: string) {
     if (masterPassword !== "") {
+      this.showMasterPasswordField = false;
+      this.correctMasterPassword = true;
       this.decryptedPasswords = [];
-      this._httpService.getPasswords().subscribe(value => {
+      this._httpService.getPasswords(masterPassword).subscribe(value => {
         value.forEach(p => {
           p.password = this._encryptionService.decrypt(p.password, masterPassword)
           this.decryptedPasswords.push(p)
