@@ -42,8 +42,7 @@ namespace PasswordManager.WebApi.Controllers
             // Plaintext password, this is only done for demonstration purposes, and would be saved as a hashed password in a database in a real scenario
             var password = "123456";
 
-            var salt = RandomNumberGenerator.GetBytes(128 / 8);
-            password = _passwordHasher.Hash(password, salt);
+            password = _passwordHasher.Hash(password);
 
             if (!_passwordHasher.Verify(password, masterPassword.MasterPassword))
                 throw new Exception("Wrong master password");
