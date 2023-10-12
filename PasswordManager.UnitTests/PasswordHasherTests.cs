@@ -67,7 +67,6 @@ namespace PasswordManager.UnitTests
             bool isPasswordValid = _passwordHasher.Verify(hashedPassword, password);
             //Assert
             Assert.True(isPasswordValid);
-
         }
     }
 }
