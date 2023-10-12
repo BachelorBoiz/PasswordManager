@@ -1,5 +1,7 @@
 <h1>PasswordManager - Security Mini Project</h1>
 
+Made by: Christian Lindholm, Julian Petersen, Mathias Kristensen, Mads Harby.
+
 <h3>Instructions to run the application:</h3>
 
  1. ```docker compose build```
