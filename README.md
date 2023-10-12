@@ -40,3 +40,12 @@ AES is a symmetric key encryption algorithm that provides a high level of protec
 
 <h4>AES</h4>
 <p>We developed the password manager using AES encryption to ensure the security of stored passwords. While we understood the importance of strong master passwords, for the sake of our demo, we temporarily used "123456" as the master password. This allowed us to showcase the functionality of our application effectively. Our primary focus was on implementing AES encryption, creating a user-friendly interface, and demonstrating how the password manager securely stores and retrieves passwords. This project laid a solid foundation for potential future developments and improvements in password security.</p>
+
+<h4>Plans for for how a user can access their credentials across devices</h4>
+
+If a user were to access the password manager on other devices, a few improvements should be made:
+
+ - Implementing a user service. Right now the password manager only works as one user. A user service could for example contain a user password that stores email and the hashed password.
+ - Implementing JWT tokens. When a user tries to login, a request will be sent to the backend with the user's email and hashed password. The backend verifies that the hashed password is correct, and generates a JWT token with the relevant user information.The frontend should implement guards and interceptors to verify the JWT token.
+ - Hosting. The application should be hosted on a cloud provider. Our container is containerized, so any cloud hosting solution should work.
+
