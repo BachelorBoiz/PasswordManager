@@ -15,8 +15,8 @@
     <form>
       <input #website type="text" placeholder="Website/App Name"  required>
       <input #username type="text" placeholder="Username/Email"  required>
-      <input #password  placeholder="Password" required>
-      <input #repeatPassword  placeholder="Repeat Password" required>
+      <input #password placeholder="Password" required>
+      <input #repeatPassword placeholder="Repeat Password" required>
       <div class="PasswordWarning" *ngIf="passwordErrorMessage">
         <div>
           {{passwordErrorMessage}}

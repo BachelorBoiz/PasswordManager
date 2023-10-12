@@ -5,6 +5,7 @@ import * as secureRandomPassword from 'secure-random-password';
 import {generate} from "rxjs";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EncryptionService} from "./encryption.service";
+import {digits, lower, randomPassword, symbols, upper} from "secure-random-password";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,6 @@ export class AppComponent implements OnInit {
   title = 'Password Manager';
   masterPassword: string = '';
   repeatedPassword: string = '';
-  masterPassword: string = "";
   newPassword: Password = {id: 0, password: "", username: "", website: ""};
   encryptedPasswords: Password[] = [];
   decryptedPasswords: Password[] = [];
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   showMasterPasswordField = true;
 
 
-  constructor(private _httpService: HttpService) {
+
   constructor(private _httpService: HttpService, private _encryptionService: EncryptionService) {
   }
 
@@ -85,7 +85,20 @@ export class AppComponent implements OnInit {
       })
     }
   }
-
+  generateSecurePassword(password: HTMLInputElement, repeatPassword: HTMLInputElement){
+    var g = () => randomPassword({
+      length: 14,
+      characters:[
+          upper,
+          lower,
+          digits,
+          symbols
+      ]
+    });
+    const generatedPassword = g();
+    password.value = generatedPassword;
+    repeatPassword.value = generatedPassword;
+  }
   deletePassword(id: number) {
     this._httpService.deletePassword(id)
   }
