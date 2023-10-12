@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpService} from "./http.service";
 import {Password} from "./password";
 import * as secureRandomPassword from 'secure-random-password';
@@ -11,21 +11,16 @@ import {digits, lower, randomPassword, symbols, upper} from "secure-random-passw
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   title = 'Password Manager';
   masterPassword: string = '';
   repeatedPassword: string = '';
   newPassword: Password = {id: 0, password: "", username: "", website: ""};
-  encryptedPasswords: Password[] = [];
   decryptedPasswords: Password[] = [];
-  generatedPassword: string ='';
   passwordErrorMessage:string ='';
   correctMasterPassword = false;
   showMasterPasswordField = true;
-
-
 
   constructor(private _httpService: HttpService, private _encryptionService: EncryptionService) {
   }
@@ -49,28 +44,20 @@ export class AppComponent implements OnInit {
     this.newPassword.password = password
     this.repeatedPassword = repeatPassword;
 
-    if(password === repeatPassword) {
+    this.newPassword.password = this._encryptionService.encrypt(password, this.masterPassword)
+
+    if (password === repeatPassword) {
       this._httpService.addPassword(this.newPassword).subscribe(value => {
         this.decryptedPasswords.push(this.newPassword);
         this.passwordErrorMessage ='';
       });
-    }else{
+    } else{
       var errorMessage= "Error: Passwords are not equal.";
       this.passwordErrorMessage = errorMessage;
       console.log(errorMessage);
     }
-    this.newPassword.password = this._encryptionService.encrypt(password, this.masterPassword)
-    this._httpService.addPassword(this.newPassword).subscribe(value => {
-      this.decryptedPasswords.push(this.newPassword);
-    })
   }
 
-  checkNulls(website: string, username: string, password: string, repeatPassword: string){
-    if (!website || !username || !password || !repeatPassword) {
-      console.log("Error: All input fields must be filled.");
-      return;
-    }
-  }
   getPasswords(masterPassword: string) {
     if (masterPassword !== "") {
       this.showMasterPasswordField = false;
