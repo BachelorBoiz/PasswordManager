@@ -37,7 +37,7 @@ AES is a symmetric key encryption algorithm that provides a high level of protec
 
 
 <h4>AES</h4>
-<p>We developed the password manager using AES encryption to ensure the security of stored passwords. While we understood the importance of strong master passwords, for the sake of our demo, we temporarily used "123456" as the master password. This allowed us to showcase the functionality of our application effectively. Our primary focus was on implementing AES encryption, creating a user-friendly interface, and demonstrating how the password manager securely stores and retrieves passwords. This project laid a solid foundation for potential future developments and improvements in password security.</p>
+<p>We developed the password manager using AES encryption to ensure the security of stored passwords. Our primary focus was on implementing AES encryption, creating a user-friendly interface, and demonstrating how the password manager securely stores and retrieves passwords. This project laid a solid foundation for potential future developments and improvements in password security.</p>
 
 <h4>PBKDF2</h4>
 <p>When we create accounts in the application, our passwords are first salted, and then the salted password is processed using PBKDF2. PBKDF2 stands for 'Password-Based Key Derivation Function 2.' It's a special tool that takes the salted password and performs multiple iterations of a cryptographic function (SHA-256 in our case), making it harder for anyone to figure out what our passwords are. The result of these iterations is a derived key, which is the value stored in the database. 
