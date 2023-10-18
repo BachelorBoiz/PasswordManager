@@ -10,6 +10,5 @@ namespace PasswordManager.Core.Abstractions
     {
         string Hash(string password);
         bool Verify(string password, string InputPassword);
-
     }
 }

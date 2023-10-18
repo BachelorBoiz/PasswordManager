@@ -14,11 +14,13 @@ namespace PasswordManager.WebApi.Controllers
     {
         private readonly IPasswordEntryService _passwordEntryService;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IUserService _userService;
 
-        public PasswordEntryController(IPasswordEntryService passwordEntryService, IPasswordHasher passwordHasher)
+        public PasswordEntryController(IPasswordEntryService passwordEntryService, IPasswordHasher passwordHasher, IUserService userService)
         {
             _passwordEntryService = passwordEntryService;
             _passwordHasher = passwordHasher;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -39,6 +41,7 @@ namespace PasswordManager.WebApi.Controllers
         [HttpPost("passwords")]
         public async Task<ActionResult<IEnumerable<PasswordEntry>>> GetAllPasswordEntries([FromBody] GetPassword masterPassword)
         {
+            var user = await _userService.GetUser(masterPassword.Email);
             // Plaintext password, this is only done for demonstration purposes, and would be saved as a hashed password in a database in a real scenario
             var password = "123456";
 
@@ -47,7 +50,7 @@ namespace PasswordManager.WebApi.Controllers
             if (!_passwordHasher.Verify(password, masterPassword.MasterPassword))
                 throw new Exception("Wrong master password");
 
-            var passwords = await _passwordEntryService.GetAllPasswordEntries();
+            var passwords = await _passwordEntryService.GetAllPasswordEntries(user.Id);
             return Ok(passwords);
         }
 

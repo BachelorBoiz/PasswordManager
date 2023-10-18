@@ -23,9 +23,9 @@ public class PasswordEntryService : IPasswordEntryService
         return await _passwordEntryRepository.GetPasswordEntry(website);
     }
 
-    public async Task<List<PasswordEntry>> GetAllPasswordEntries()
+    public async Task<List<PasswordEntry>> GetAllPasswordEntries(int userId)
     {
-        var passwordEntries = await _passwordEntryRepository.GetAllPasswordEntries();
+        var passwordEntries = await _passwordEntryRepository.GetAllPasswordEntries(userId);
         return passwordEntries;
     }
 

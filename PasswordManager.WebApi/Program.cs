@@ -23,12 +23,14 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddRazorPages();
 
 // Dependency Injection for PasswordEntry
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordEntryService, PasswordEntryService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 builder.Services.AddDbContext<PasswordManagerDbContext>(options => 
     options.UseSqlite("Data Source=/data/passwords.db"));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordEntryRepository, PasswordEntryRepository>();
 
 builder.Services.AddCors(options => options
@@ -37,10 +39,11 @@ builder.Services.AddCors(options => options
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateAsyncScope())
+await using (var scope = app.Services.CreateAsyncScope())
 {
     var ctx = scope.ServiceProvider.GetRequiredService<PasswordManagerDbContext>();
-    ctx.Database.EnsureCreatedAsync();
+    await ctx.Database.EnsureDeletedAsync();
+    await ctx.Database.EnsureCreatedAsync();
 }
 
 // Configure the HTTP request pipeline.

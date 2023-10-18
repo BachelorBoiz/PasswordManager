@@ -23,12 +23,17 @@ public class PasswordEntryRepository : IPasswordEntryRepository
                 Id = entity.Id,
                 Username = entity.Username,
                 Password = entity.Password,
-                Website = entity.Website
+                Website = entity.Website,
+                User = new User
+                {
+                    Id = entity.User.Id,
+                    Email = entity.User.Email
+                }
             })
             .FirstOrDefaultAsync();
     }
 
-    public async Task<List<PasswordEntry>> GetAllPasswordEntries()
+    public async Task<List<PasswordEntry>> GetAllPasswordEntries(int userId)
     {
         return await _ctx.Passwords
             .Select(entity => new PasswordEntry()
@@ -36,8 +41,14 @@ public class PasswordEntryRepository : IPasswordEntryRepository
                 Id = entity.Id,
                 Username = entity.Username,
                 Password = entity.Password,
-                Website = entity.Website
+                Website = entity.Website,
+                User = new User
+                {
+                    Id = entity.User.Id,
+                    Email = entity.User.Email
+                }
             })
+            .Where(x => x.User.Id == userId)
             .ToListAsync();
     }
 
@@ -47,7 +58,8 @@ public class PasswordEntryRepository : IPasswordEntryRepository
         {
             Username = entry.Username,
             Password = entry.Password,
-            Website = entry.Website
+            Website = entry.Website,
+            UserId = entry.User.Id
         };
 
         _ctx.Passwords.Add(entity);
@@ -61,12 +73,10 @@ public class PasswordEntryRepository : IPasswordEntryRepository
     {
         var existingEntity = _ctx.Passwords.FirstOrDefault(e => e.Website == entry.Website);
 
-        if (existingEntity != null)
-        {
-            existingEntity.Username = entry.Username;
-            existingEntity.Password = entry.Password;
-            await _ctx.SaveChangesAsync();
-        }
+        if (existingEntity == null) return entry;
+        existingEntity.Username = entry.Username;
+        existingEntity.Password = entry.Password;
+        await _ctx.SaveChangesAsync();
 
         return entry;
     }
