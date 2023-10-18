@@ -26,8 +26,8 @@ Made by: Christian Lindholm, Julian Petersen, Mathias Kristensen, Mads Harby.
 <h3>Discussion about security of our product.</h3>
 
 <h4>Security Considerations:</h4>
-In our project we recognized the importance of data encryption to protect sensitive information (in this case, passwords). We decided to use Advanced Encryption Standard (AES) as our encryption algorithm due to its well established place in security.
-AES is a symmetric key encryption algorithm that provides a high level of protection against unauthorized access.
+In our project we recognized the importance of data encryption to protect sensitive information (in this case, passwords). We decided to use Advanced Encryption Standard (AES) as our encryption algorithm due to its well established place in security. AES is a symmetric key encryption algorithm that provides a high level of protection against unauthorized access.
+We've also opted for PBKDF2 to help with our password hashing. With these choices in mind we tried to achieve a safe password application.
 
 <h4>Key Management:</h4> To ensure the security of our application, we implemented a robust key management system. The strength of AES is in the key used for encryption and decryption, so we placed great emphasis on the protection and handling of encryption keys. The master password functions as the key in our case.
 
