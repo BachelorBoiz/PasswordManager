@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Core.Abstractions;
 using PasswordManager.Core.IServices;
 using PasswordManager.Core.Models;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 using PasswordManager.WebApi.Dtos;
 
 namespace PasswordManager.WebApi.Controllers
@@ -23,37 +26,64 @@ namespace PasswordManager.WebApi.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Add new password
+        /// </summary>
+        /// <param name="newPasswordEntry"></param>
+        /// <returns></returns>
+        [Authorize]
         [HttpPost]
-        public async Task<ActionResult<PasswordEntry>> AddPassword(PasswordEntry newPassword)
+        public async Task<ActionResult<PasswordEntryDto>> AddPassword(PasswordEntryDto newPasswordEntry)
         {
-            await _passwordEntryService.AddPasswordEntry(newPassword);
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            var user = await _userService.GetUser(userEmail);
+
+            var password = await _passwordEntryService.AddPasswordEntry(new PasswordEntry
+            {
+                Password = newPasswordEntry.Password,
+                Username = newPasswordEntry.Username,
+                Website = newPasswordEntry.Website,
+                User = new User
+                {
+                    Email = user.Email,
+                    Id = user.Id
+                }
+            });
 
             return Ok();
         }
 
         /// <summary>
-        /// Calling this endpoint with masterPassword as "123456" will return all saved passwords as encrypted.
+        /// Returns all password entries.
         /// The frontend will decrypt the passwords.
         /// </summary>
         /// <param name="masterPassword"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
+        [Authorize]
         [HttpPost("passwords")]
-        public async Task<ActionResult<IEnumerable<PasswordEntry>>> GetAllPasswordEntries([FromBody] GetPassword masterPassword)
+        public async Task<ActionResult<IEnumerable<PasswordEntryDto>>> GetAllPasswordEntries()
         {
-            var user = await _userService.GetUser(masterPassword.Email);
-            // Plaintext password, this is only done for demonstration purposes, and would be saved as a hashed password in a database in a real scenario
-            var password = "123456";
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
-            password = _passwordHasher.Hash(password);
-
-            if (!_passwordHasher.Verify(password, masterPassword.MasterPassword))
-                throw new Exception("Wrong master password");
+            var user = await _userService.GetUser(userEmail);
 
             var passwords = await _passwordEntryService.GetAllPasswordEntries(user.Id);
-            return Ok(passwords);
+
+            var passwordDtos = passwords.Select(password => 
+                new PasswordEntryDto { Password = password.Password, Username = password.Username, Website = password.Website })
+                .AsEnumerable();
+
+            return Ok(passwordDtos);
         }
 
+        /// <summary>
+        /// Delete password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePassword(int id)
         {

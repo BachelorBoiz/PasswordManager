@@ -6,6 +6,8 @@ import {generate} from "rxjs";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EncryptionService} from "./encryption.service";
 import {digits, lower, randomPassword, symbols, upper} from "secure-random-password";
+import {AuthService} from "./auth/shared/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,7 @@ import {digits, lower, randomPassword, symbols, upper} from "secure-random-passw
 })
 export class AppComponent implements OnInit {
   title = 'Password Manager';
+  jwt: string | null | undefined;
   masterPassword: string = '';
   repeatedPassword: string = '';
   newPassword: Password = {id: 0, password: "", username: "", website: ""};
@@ -22,7 +25,13 @@ export class AppComponent implements OnInit {
   correctMasterPassword = false;
   showMasterPasswordField = true;
 
-  constructor(private _httpService: HttpService, private _encryptionService: EncryptionService) {
+  constructor(private _httpService: HttpService,
+              private _encryptionService: EncryptionService,
+              private _auth: AuthService,
+              private _router: Router) {
+    _auth.isLoggedIn$.subscribe(jwt => {
+      this.jwt = jwt;
+    })
   }
 
   ngOnInit(): void {
@@ -88,6 +97,13 @@ export class AppComponent implements OnInit {
   }
   deletePassword(id: number) {
     this._httpService.deletePassword(id)
+  }
+
+  logout() {
+    this._auth.logout()
+      .subscribe(loggedOut => {
+        this._router.navigateByUrl('auth/login')
+      });
   }
 }
 

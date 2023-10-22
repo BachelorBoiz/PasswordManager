@@ -22,20 +22,20 @@ public class PasswordManagerDbContext : DbContext
             .HasForeignKey(x => x.UserId)
             .HasPrincipalKey(x => x.Id);
 
-        modelBuilder.Entity<UserEntity>().HasData(new UserEntity
-        {
-            Id = 1,
-            Email = "test@mail.com",
-            HashedPassword = "123456"
-        });
+        //modelBuilder.Entity<UserEntity>().HasData(new UserEntity
+        //{
+        //    Id = 1,
+        //    Email = "test@mail.com",
+        //    HashedPassword = "123456"
+        //});
 
-        modelBuilder.Entity<PasswordEntryEntity>().HasData(new PasswordEntryEntity
-        {
-            Id = 1,
-            UserId = 1,
-            Password = "123456",
-            Username = "test",
-            Website = "test"
-        });
+        //modelBuilder.Entity<PasswordEntryEntity>().HasData(new PasswordEntryEntity
+        //{
+        //    Id = 1,
+        //    UserId = 1,
+        //    Password = "123456",
+        //    Username = "test",
+        //    Website = "test"
+        //});
     }
 }
