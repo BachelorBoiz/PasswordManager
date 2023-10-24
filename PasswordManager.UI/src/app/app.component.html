@@ -1,11 +1,23 @@
 <div class="password-manager">
   <h1>Password Manager</h1>
 
-  <div class="password-form" [style.display]="showMasterPasswordField ? 'block' : 'none'">
-    <h2>Type your master password</h2>
+  <div class="password-form" [style.display]="showLoginScreen ? 'block' : 'none'">
+    <h2>Login</h2>
+    <form >
+      <input #email type="text" placeholder="Email" required>
+      <input #password type="password" placeholder="Password" required>
+      <button (click)="login(password.value, email.value)" type="button">Submit</button>
+    </form>
+  </div>
+
+  <div [style.display]="showLoginScreen ? 'block' : 'none'" class="password-form">
+    <h2>Create a new user</h2>
     <form>
-      <input #masterPassword type="password" placeholder="Master password" required>
-      <button (click)="getPasswords(masterPassword.value)" type="button">Submit</button>
+      <input #newUserEmail type="text" placeholder="Email"  required>
+      <input #newUserPassword type="password" placeholder="Password"  required>
+      <form class="button-layout">
+        <button (click)="createUser(newUserPassword.value, newUserEmail.value)" type="submit">Create user</button>
+      </form>
     </form>
   </div>
 
@@ -15,7 +27,7 @@
     <form>
       <input #website type="text" placeholder="Website/App Name"  required>
       <input #username type="text" placeholder="Username/Email"  required>
-      <input #password placeholder="Password" required>
+      <input #newPassword placeholder="Password" required>
       <input #repeatPassword placeholder="Repeat Password" required>
       <div class="PasswordWarning" *ngIf="passwordErrorMessage">
         <div>
@@ -23,8 +35,8 @@
         </div>
       </div>
       <form class="button-layout">
-        <button (click)="generateSecurePassword(password, repeatPassword)" type="submit">Generate</button>
-        <button (click)="addPassword(website.value, username.value, password.value, repeatPassword.value)" type="submit">Add</button>
+        <button (click)="generateSecurePassword(newPassword, repeatPassword)" type="submit">Generate</button>
+        <button (click)="addPassword(website.value, username.value, newPassword.value, repeatPassword.value)" type="submit">Add</button>
       </form>
     </form>
   </div>

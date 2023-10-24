@@ -13,12 +13,11 @@ export class HttpService {
   addPassword(password: Password): Observable<Password> {
     return this._http.post<Password>("http://localhost:8000/api/PasswordEntry", password)
   }
-  getPasswords(masterPassword: string): Observable<Password[]> {
-    return this._http.post<Password[]>("http://localhost:8000/api/PasswordEntry/passwords", {masterPassword: masterPassword})
+  getPasswords(): Observable<Password[]> {
+    return this._http.get<Password[]>("http://localhost:8000/api/PasswordEntry")
   }
 
-  deletePassword(id: number): void {
-    console.log(id)
-    this._http.delete("http://localhost:8000/api/PasswordEntry/" + id)
+  deletePassword(id: number): Observable<void> {
+    return this._http.delete<void>("http://localhost:8000/api/PasswordEntry/" + id)
   }
 }

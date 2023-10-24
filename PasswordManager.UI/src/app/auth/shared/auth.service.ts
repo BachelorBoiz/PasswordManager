@@ -19,7 +19,21 @@ export class AuthService {
   }
 
   login(loginDto: LoginDto): Observable<TokenDto>{
-    return this._http.post<TokenDto>('api/auth/login', loginDto)
+    return this._http.post<TokenDto>('http://localhost:8000/api/User/Login', loginDto)
+      .pipe(
+        tap(token => {
+          if(token && token.jwt) {
+            localStorage.setItem(jwtToken, token.jwt);
+            this.isLoggedIn$.next(token.jwt);
+          } else {
+            this.logout();
+          }
+        })
+      )
+  }
+
+  createUser(loginDto: LoginDto): Observable<TokenDto>{
+    return this._http.post<TokenDto>('http://localhost:8000/api/User/create/user', loginDto)
       .pipe(
         tap(token => {
           if(token && token.jwt) {

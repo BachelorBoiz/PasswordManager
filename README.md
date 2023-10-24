@@ -2,24 +2,32 @@
 
 Made by: Christian Lindholm, Julian Petersen, Mathias Kristensen, Mads Harby.
 
+<h3>Improvements to the application:</h3>
+
+- User functionality has been added, with the option to create a new user and login. No more hardcoded passwords.
+- Jwt used for authentication. Every method in the backend API (except login and create user) has been marked with [Authorize] Which means it has to have a valid Jwt to function.
+- The frontend has an interceptor to use for authentication which makes communication between frontend and backend more secure.
+- Password hashing is done with 600.000 iterations of Pbkdf2 instead of 10.000
+
 <h3>Instructions to run the application:</h3>
 
  1. ```docker compose build```
  2. ```docker compose up```
  3. Go to ```http://localhost:8001/```
+ 4. Go to ```http://localhost:8000/swagger``` to see the API
 
 <h3>How to use:</h3>
 
- - For this demo version of the password manager, we use the master password: ```123456```
+ - A user with email: test@mail.com and password: 123456 has been made.
  - Add new passwords to the list by filling the form.
  - You will only be able to view the list of passwords, if you know the master password.
 
 <h3>Screenshots of the product.</h3>
 
 
-<img src="https://i.imgur.com/BNntXfH.png" alt="Alt Text">
+<img src="https://i.imgur.com/OdiubMs.png" alt="Alt Text">
 <br>
-<img src="https://i.imgur.com/bPEXHIN.png" alt="Alt Text">
+<img src="https://i.imgur.com/6Ce0XiJ.png" alt="Alt Text">
 <br>
 <img src="https://i.imgur.com/YkzUaVF.png" alt="Alt Text">
 
@@ -47,7 +55,5 @@ OWASP recommends doing this mixing process 600,000 times.</p>
 <h4>Plans for for how a user can access their credentials across devices</h4>
 
 If a user were to access the password manager on other devices, a few improvements should be made:
-
- - Implementing JWT tokens. When a user tries to login, a request will be sent to the backend with the user's email and hashed password. The backend verifies that the hashed password is correct, and generates a JWT token with the relevant user information.The frontend should implement guards and interceptors to verify the JWT token.
  - Hosting. The application should be hosted on a cloud provider. Our container is containerized, so any cloud hosting solution should work.
 

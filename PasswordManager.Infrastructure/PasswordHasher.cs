@@ -12,7 +12,7 @@ namespace PasswordManager.Infrastructure
     {
         private const int saltSize = 128 / 8;
         private const int KeySize = 256 / 8;
-        private const int Iterations = 10000;
+        private const int Iterations = 600000;
         private static readonly HashAlgorithmName _hashAlgorithmName = HashAlgorithmName.SHA256;
         private static char Delimiter = ';';
 

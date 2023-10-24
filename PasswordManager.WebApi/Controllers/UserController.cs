@@ -44,7 +44,7 @@ namespace PasswordManager.WebApi.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("create/user")]
-        public async Task<ActionResult<User>> AddUser(CreateUserDto createUserDto)
+        public async Task<ActionResult<TokenDto>> AddUser(CreateUserDto createUserDto)
         {
             var user = await _userService.GetUser(createUserDto.Email);
 
@@ -57,8 +57,15 @@ namespace PasswordManager.WebApi.Controllers
             };
 
             await _userService.AddUser(newUser);
-            return Ok();
 
+            var token = await _jwtService.GenerateJwt(createUserDto.Email, createUserDto.Password);
+            var newToken = new TokenDto
+            {
+                Message = token.Message,
+                Jwt = token.Jwt
+            };
+
+            return Ok(newToken);
         }
 
         /// <summary>

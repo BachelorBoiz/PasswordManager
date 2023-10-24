@@ -95,26 +95,10 @@ await using (var scope = app.Services.CreateAsyncScope())
     var ctx = scope.ServiceProvider.GetRequiredService<PasswordManagerDbContext>();
     var passwordHash = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
 
-    await ctx.Database.EnsureDeletedAsync();
+    //await ctx.Database.EnsureDeletedAsync();
     await ctx.Database.EnsureCreatedAsync();
 
-    await ctx.Users.AddAsync(new UserEntity
-    {
-        Email = "test@mail.com",
-        HashedPassword = passwordHash.Hash("123456"),
-        Id = 1
-    });
-
-    await ctx.Passwords.AddAsync(new PasswordEntryEntity
-    {
-        UserId = 1,
-        Password = "123456",
-        Username = "Test",
-        Id = 1,
-        Website = "Test"
-    });
-
-    await ctx.SaveChangesAsync();
+    //await ctx.SaveChangesAsync();
 }
 
 // Configure the HTTP request pipeline.

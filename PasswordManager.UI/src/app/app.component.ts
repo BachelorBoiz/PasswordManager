@@ -8,6 +8,7 @@ import {EncryptionService} from "./encryption.service";
 import {digits, lower, randomPassword, symbols, upper} from "secure-random-password";
 import {AuthService} from "./auth/shared/auth.service";
 import {Router} from "@angular/router";
+import {LoginDto} from "./auth/shared/login.dto";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   decryptedPasswords: Password[] = [];
   passwordErrorMessage:string ='';
   correctMasterPassword = false;
-  showMasterPasswordField = true;
+  showLoginScreen = true;
 
   constructor(private _httpService: HttpService,
               private _encryptionService: EncryptionService,
@@ -57,7 +58,7 @@ export class AppComponent implements OnInit {
 
     if (password === repeatPassword) {
       this._httpService.addPassword(this.newPassword).subscribe(value => {
-        this.decryptedPasswords.push(this.newPassword);
+        this.getPasswords(this.masterPassword)
         this.passwordErrorMessage ='';
       });
     } else{
@@ -67,12 +68,42 @@ export class AppComponent implements OnInit {
     }
   }
 
+  login(password: string, email: string){
+    const loginData: LoginDto = {
+      email: email,
+      password: password
+    };
+    this._auth.login(loginData)
+      .subscribe(token => {
+        if(token && token.jwt){
+          console.log('Token: ', token);
+          this.masterPassword = loginData.password
+          this.getPasswords(loginData.password)
+        }
+      });
+  }
+
+  createUser(password: string, email: string) {
+    console.log(email)
+    const loginData: LoginDto = {
+      email: email,
+      password: password
+    };
+    this._auth.createUser(loginData)
+      .subscribe(token => {
+        if(token && token.jwt){
+          this.masterPassword = loginData.password
+          this.getPasswords(loginData.password)
+        }
+      });
+  }
+
   getPasswords(masterPassword: string) {
     if (masterPassword !== "") {
-      this.showMasterPasswordField = false;
+      this.showLoginScreen = false;
       this.correctMasterPassword = true;
       this.decryptedPasswords = [];
-      this._httpService.getPasswords(masterPassword).subscribe(value => {
+      this._httpService.getPasswords().subscribe(value => {
         value.forEach(p => {
           p.password = this._encryptionService.decrypt(p.password, masterPassword)
           this.decryptedPasswords.push(p)
@@ -96,7 +127,12 @@ export class AppComponent implements OnInit {
     repeatPassword.value = generatedPassword;
   }
   deletePassword(id: number) {
-    this._httpService.deletePassword(id)
+    this._httpService.deletePassword(id).subscribe(value => {
+      const index = this.decryptedPasswords.findIndex(password => password.id === id);
+      if (index !== -1) {
+        this.decryptedPasswords.splice(index, 1);
+      }
+    })
   }
 
   logout() {

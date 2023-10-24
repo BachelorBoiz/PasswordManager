@@ -39,6 +39,11 @@ namespace PasswordManager.WebApi.Controllers
 
             var user = await _userService.GetUser(userEmail);
 
+            if (user is null)
+            {
+                return BadRequest("Wrong user");
+            }
+
             var password = await _passwordEntryService.AddPasswordEntry(new PasswordEntry
             {
                 Password = newPasswordEntry.Password,
@@ -51,7 +56,7 @@ namespace PasswordManager.WebApi.Controllers
                 }
             });
 
-            return Ok();
+            return Ok(password);
         }
 
         /// <summary>
@@ -62,17 +67,22 @@ namespace PasswordManager.WebApi.Controllers
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         [Authorize]
-        [HttpPost("passwords")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<PasswordEntryDto>>> GetAllPasswordEntries()
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
             var user = await _userService.GetUser(userEmail);
 
+            if (user is null)
+            {
+                return BadRequest("Wrong user");
+            }
+
             var passwords = await _passwordEntryService.GetAllPasswordEntries(user.Id);
 
             var passwordDtos = passwords.Select(password => 
-                new PasswordEntryDto { Password = password.Password, Username = password.Username, Website = password.Website })
+                new PasswordEntryDto { Password = password.Password, Username = password.Username, Website = password.Website, Id = password.Id})
                 .AsEnumerable();
 
             return Ok(passwordDtos);
